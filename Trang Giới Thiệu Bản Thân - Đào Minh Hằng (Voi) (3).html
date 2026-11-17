@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đào Minh Hằng (Voi) | Vũ Trụ Cá Nhân Cyber-Editorial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Be Vietnam Pro, Playfair Display & Space Grotesk (Hỗ trợ tiếng Việt hoàn hảo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                        mono: ['"Space Grotesk"', 'monospace'],
+                    },
+                    colors: {
+                        cosmic: {
+                            950: '#070510',
+                            900: '#0d091f',
+                            800: '#161033',
+                        },
+                        neon: {
+                            purple: '#a855f7',
+                            pink: '#f472b6',
+                            gold: '#fbbf24',
+                            cyan: '#22d3ee'
+                        }
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'spin-reverse': 'spin 15s linear infinite reverse',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 0.6, transform: 'scale(1)' },
+                            '50%': { opacity: 1, transform: 'scale(1.05)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar & Base Styles */
+        body {
+            background-color: #070510;
+            color: #f8fafc;
+            overflow-x: hidden;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070510;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #a855f7, #f472b6);
+            border-radius: 9999px;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+            transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(244, 114, 182, 0.45);
+            box-shadow: 0 16px 48px -8px rgba(168, 85, 247, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Editorial Gradient Text */
+        .text-gradient-royal {
+            background: linear-gradient(135deg, #fde68a 0%, #f472b6 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Cosmic Halo Ring around Avatar */
+        .avatar-halo {
+            background: conic-gradient(from 0deg, #a855f7, #fbbf24, #f472b6, #22d3ee, #a855f7);
+        }
+
+        /* Typing Cursor Blink */
+        .typing-cursor::after {
+            content: '|';
+            color: #fbbf24;
+            animation: blink 0.9s infinite;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* Constellation Timeline Glowing Line */
+        .constellation-line {
+            background: linear-gradient(180deg, rgba(168,85,247,0) 0%, #a855f7 20%, #fbbf24 50%, #f472b6 80%, rgba(244,114,182,0) 100%);
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.6);
+        }
+
+        /* Ripple Button Effect */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple-circle {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.45);
+            pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-neon-pink selection:text-cosmic-950">
+
+    <!-- Particle Background Canvas -->
+    <canvas id="particleCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Ambient Cosmic Glow Orbs -->
+    <div class="fixed top-[-10%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-neon-purple/20 blur-[130px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-neon-pink/15 blur-[130px] pointer-events-none z-0"></div>
+    <div class="fixed top-[40%] left-[55%] w-[30vw] h-[30vw] rounded-full bg-neon-gold/10 blur-[120px] pointer-events-none z-0"></div>
+
+    <!-- Floating Glass Navigation Header -->
+    <header class="sticky top-4 z-40 mx-auto max-w-6xl px-4">
+        <nav class="glass-card rounded-full px-5 py-3 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <span class="w-8 h-8 rounded-full bg-gradient-to-tr from-neon-purple via-neon-pink to-neon-gold flex items-center justify-center text-cosmic-950 font-bold text-sm shadow-lg group-hover:rotate-12 transition-transform">
+                    <i class="fa-solid fa-sparkles"></i>
+                </span>
+                <span id="navBrandName" class="font-serif font-bold text-lg tracking-wide text-white">Voi</span>
+            </a>
+
+            <!-- Navigation Links (Hidden on small mobile) -->
+            <div class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-neon-gold transition-colors">Hồ sơ</a>
+                <a href="#hobbies" class="hover:text-neon-pink transition-colors">Sở thích</a>
+                <a href="#dreams" class="hover:text-neon-purple transition-colors">Ước mơ</a>
+                <a href="#school" class="hover:text-neon-cyan transition-colors">Ngôi trường mơ ước</a>
+                <a href="#connect" class="hover:text-neon-gold transition-colors">Kết nối</a>
+            </div>
+
+            <!-- Edit Mode Button -->
+            <button onclick="openEditModal()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-neon-purple/80 to-neon-pink/80 hover:from-neon-purple hover:to-neon-pink text-white text-xs sm:text-sm font-semibold shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_28px_rgba(244,114,182,0.6)] transition-all active:scale-95">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Chỉnh sửa thông tin</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 pt-10 pb-24 space-y-24">
+
+        <!-- 1. HERO SECTION -->
+        <section id="about" class="pt-6 sm:pt-12 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            <!-- Avatar with Rotating Cosmic Halo -->
+            <div class="relative flex-shrink-0 animate-float">
+                <!-- Outer Spinning Halo -->
+                <div class="w-60 h-60 sm:w-72 sm:h-72 rounded-full p-1.5 avatar-halo animate-spin-slow shadow-[0_0_50px_rgba(168,85,247,0.45)]">
+                    <div class="w-full h-full rounded-full bg-cosmic-950 p-2">
+                        <img id="displayAvatar"
+                             src="https://drive.google.com/thumbnail?id=163rOjmlw1JCObfZNk8XfsijmJyw3hu3f&sz=w1000"
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';"
+                             alt="Ảnh đại diện Đào Minh Hằng"
+                             class="w-full h-full object-cover rounded-full">
+                    </div>
+                </div>
+
+                <!-- Floating Decorative Badges -->
+                <div class="absolute -top-2 -right-2 glass-card px-3.5 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-neon-gold shadow-lg">
+                    <i class="fa-solid fa-crown text-neon-gold"></i>
+                    <span id="displayZodiac">Sư Tử</span>
+                </div>
+
+                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 glass-card px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-medium text-neon-pink whitespace-nowrap shadow-lg">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>Biệt danh: <strong id="displayNicknameBadge" class="text-white">Voi</strong></span>
+                </div>
+            </div>
+
+            <!-- Personal Info & Cyber-Editorial Typography -->
+            <div class="flex-1 text-center lg:text-left space-y-6">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm text-neon-pink font-medium tracking-wider uppercase">
+                    <i class="fa-solid fa-sparkles text-neon-gold"></i>
+                    <span>Hồ Sơ Cá Nhân Độc Bản</span>
+                </div>
+
+                <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+                    Xin chào, mình là <br>
+                    <span id="displayName" class="text-gradient-royal">Đào Minh Hằng</span>
+                </h1>
+
+                <!-- Dynamic Typing Subtitle -->
+                <div class="h-8 sm:h-10 flex items-center justify-center lg:justify-start text-lg sm:text-2xl font-medium text-slate-200">
+                    <span class="text-neon-gold mr-2">✦</span>
+                    <span id="typingText" class="typing-cursor"></span>
+                </div>
+
+                <p id="displayBio" class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-light">
+                    Một tâm hồn yêu cái đẹp, đam mê công nghệ sáng tạo và luôn khao khát chạm tới những chân trời tri thức mới. Với mình, mỗi ngày trôi qua là một nét vẽ rực rỡ trên bức tranh thanh xuân.
+                </p>
+
+                <!-- Key Identity Pills (Age, Birthday, Location) -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2 max-w-2xl mx-auto lg:mx-0">
+                    <div class="glass-card rounded-2xl p-4 flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-neon-purple/20 border border-neon-purple/40 flex items-center justify-center text-neon-purple text-lg">
+                            <i class="fa-solid fa-cake-candles"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-xs text-slate-400">Ngày sinh</p>
+                            <p id="displayBirthday" class="font-semibold text-white text-sm sm:text-base">24/07/2009</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-4 flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-neon-gold/20 border border-neon-gold/40 flex items-center justify-center text-neon-gold text-lg">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-xs text-slate-400">Độ tuổi</p>
+                            <p id="displayAge" class="font-semibold text-white text-sm sm:text-base">17 Tuổi</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-4 flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-neon-pink/20 border border-neon-pink/40 flex items-center justify-center text-neon-pink text-lg">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-xs text-slate-400">Quê quán</p>
+                            <p id="displayLocation" class="font-semibold text-white text-sm sm:text-base">Quảng Ninh, Việt Nam</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. BENTO GRID: SỞ THÍCH & THÓI QUEN KHI RẢNH RỖI -->
+        <section id="hobbies" class="space-y-8">
+            <div class="text-center space-y-3">
+                <span class="text-xs uppercase tracking-[0.25em] text-neon-gold font-semibold">Thế Giới Nội Tâm</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">
+                    Sở Thích & <span class="text-gradient-royal">Góc Nhỏ Rảnh Rỗi</span>
+                </h2>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Những mảnh ghép tạo nên nguồn cảm hứng bất tận và nạp lại năng lượng cho mình sau giờ học căng thẳng.
+                </p>
+            </div>
+
+            <!-- Interactive 3D Tilt Bento Grid -->
+            <div id="bentoContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- Cards will be dynamically rendered & bound with 3D tilt via JS -->
+            </div>
+        </section>
+
+        <!-- 3. GLOWING CONSTELLATION TIMELINE: ƯỚC MƠ & DỰ ĐỊNH TƯƠNG LAI -->
+        <section id="dreams" class="space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs uppercase tracking-[0.25em] text-neon-pink font-semibold">Bản Đồ Sao Tương Lai</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">
+                    Ước Mơ & <span class="text-gradient-royal">Dự Định Phía Trước</span>
+                </h2>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Những vì sao dẫn lối mà mình đang nỗ lực từng ngày để chạm tay tới.
+                </p>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Vertical Glowing Line -->
+                <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 constellation-line rounded-full"></div>
+
+                <div id="timelineContainer" class="space-y-10">
+                    <!-- Timeline Milestones rendered via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FUTURISTIC CINEMA VIDEO SHOWCASE: NGÔI TRƯỜNG TƯƠNG LAI -->
+        <section id="school" class="space-y-8">
+            <div class="text-center space-y-3">
+                <span class="text-xs uppercase tracking-[0.25em] text-neon-cyan font-semibold">Khát Vọng Giảng Đường</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">
+                    Ngôi Trường <span class="text-gradient-royal">Trong Mơ Của Mình</span>
+                </h2>
+                <p id="displaySchoolName" class="text-neon-gold font-medium text-base sm:text-lg">
+                    Đại học Công Nghệ (UET - VNU)
+                </p>
+            </div>
+
+            <!-- Futuristic Cinema Frame -->
+            <div class="relative max-w-4xl mx-auto group">
+                <!-- Ambient Cinema Glow -->
+                <div class="absolute -inset-1.5 bg-gradient-to-r from-neon-purple via-neon-gold to-neon-pink rounded-3xl blur-lg opacity-50 group-hover:opacity-85 transition duration-500"></div>
+
+                <div class="relative glass-card rounded-3xl p-3 sm:p-5 overflow-hidden">
+                    <!-- Top Cinema Bar -->
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 px-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            <span class="ml-2 text-xs font-mono text-slate-400 hidden sm:inline">UET_DREAM_CAMPUS.SHOWCASE</span>
+                        </div>
+                        <span class="text-xs px-3 py-1 rounded-full bg-neon-purple/20 text-neon-pink border border-neon-purple/30">
+                            <i class="fa-solid fa-graduation-cap mr-1"></i> Future Vision
+                        </span>
+                    </div>
+
+                    <!-- Dynamic Media Container: Supports both YouTube Embed & Rich Facebook Showcase Card -->
+                    <div id="schoolMediaContainer" class="relative w-full rounded-2xl overflow-hidden bg-cosmic-950 shadow-inner">
+                        <!-- Rendered dynamically via renderSchoolMedia() -->
+                    </div>
+
+                    <!-- Video Caption -->
+                    <div class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-2 text-sm text-slate-300">
+                        <p id="displaySchoolDesc" class="italic">
+                            "Vừa đam mê công nghệ, vừa có khả năng thiết kế sáng tạo — nơi chắp cánh cho những ý tưởng đột phá tại Đại học Công Nghệ."
+                        </p>
+                        <button onclick="openEditModal()" class="text-xs text-neon-gold hover:underline whitespace-nowrap flex items-center gap-1.5 self-start sm:self-center">
+                            <i class="fa-solid fa-pen-to-square"></i> Đổi link video / bài viết
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SOCIAL & FACEBOOK CONNECTION -->
+        <section id="connect" class="pt-4">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+                <!-- Decorative Sparkles -->
+                <div class="absolute top-6 left-8 text-neon-gold/30 text-3xl animate-pulse"><i class="fa-solid fa-star"></i></div>
+                <div class="absolute bottom-6 right-8 text-neon-pink/30 text-4xl animate-pulse"><i class="fa-solid fa-sparkles"></i></div>
+
+                <div class="max-w-2xl mx-auto space-y-6 relative z-10">
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">
+                        Kết Nối Cùng <span class="text-gradient-royal">Vũ Trụ Của Voi</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Chúng ta có thể cùng trò chuyện về những cuốn sách hay, chia sẻ mục tiêu chinh phục Đại học Công Nghệ hoặc đơn giản là làm quen với nhau qua Facebook nhé!
+                    </p>
+
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <!-- Glowing Ripple Facebook CTA Button -->
+                        <a id="displayFacebookLink"
+                           href="https://www.facebook.com/share/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           onclick="createRipple(event)"
+                           class="btn-ripple group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#1877F2] via-neon-purple to-neon-pink text-white font-bold text-base sm:text-lg shadow-[0_0_30px_rgba(24,119,242,0.5)] hover:shadow-[0_0_45px_rgba(244,114,182,0.8)] transition-all duration-300 hover:-translate-y-1 w-full sm:w-auto">
+                            <i class="fa-brands fa-facebook text-2xl group-hover:scale-110 transition-transform"></i>
+                            <span>Ghé Thăm Facebook Của Mình</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-sm opacity-80"></i>
+                        </a>
+
+                        <!-- Copy Link Button -->
+                        <button onclick="copyProfileLink(event)"
+                                class="btn-ripple px-6 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-medium text-sm sm:text-base flex items-center justify-center gap-2 transition-all w-full sm:w-auto">
+                            <i class="fa-solid fa-link text-neon-gold"></i>
+                            <span id="copyBtnText">Sao chép link trang</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-white/10 py-8 text-center text-xs sm:text-sm text-slate-400">
+        <p>Thiết kế độc bản mang phong cách <span class="text-neon-pink font-medium">Cyber-Editorial</span> • Dành riêng cho <span id="footerName" class="text-neon-gold font-semibold">Đào Minh Hằng (Voi)</span> ✨</p>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- INTERACTIVE EDIT MODE MODAL (Tự chỉnh sửa & lưu vào localStorage)    -->
+    <!-- ===================================================================== -->
+    <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-card bg-cosmic-900/95 border border-neon-purple/40 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-[0_0_60px_rgba(168,85,247,0.35)]">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-neon-gold text-lg"></i>
+                    <h3 class="font-serif text-xl font-bold text-white">Tùy Chỉnh Hồ Sơ Cá Nhân</h3>
+                </div>
+                <button onclick="closeEditModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-300 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable Form) -->
+            <form id="profileForm" onsubmit="saveProfileData(event)" class="p-6 overflow-y-auto space-y-5 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Họ và tên của bạn</label>
+                        <input type="text" id="inputName" required class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Biệt danh / Tên ngắn (Header)</label>
+                        <input type="text" id="inputShortName" required class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Ngày tháng năm sinh</label>
+                        <input type="text" id="inputBirthday" placeholder="VD: 15/10/2008" required class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Tuổi hiện tại</label>
+                        <input type="text" id="inputAge" placeholder="VD: 18 Tuổi" required class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Cung hoàng đạo</label>
+                        <input type="text" id="inputZodiac" placeholder="VD: Thiên Bình" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Quê quán / Nơi sống</label>
+                        <input type="text" id="inputLocation" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Link ảnh đại diện (URL)</label>
+                        <input type="url" id="inputAvatar" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-1.5 font-medium">Các câu Slogan chạy chữ (Ngăn cách bằng dấu phẩy)</label>
+                    <input type="text" id="inputTaglines" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-1.5 font-medium">Lời giới thiệu bản thân ngắn gọn</label>
+                    <textarea id="inputBio" rows="2" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-1.5 font-medium">Sở thích & Điều thường làm khi rảnh (Mỗi dòng 1 mục: Tên | Mô tả)</label>
+                    <textarea id="inputHobbies" rows="4" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none font-mono text-xs"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-1.5 font-medium">Ước mơ & Dự định tương lai (Mỗi dòng 1 cột mốc: Thời gian | Tiêu đề | Chi tiết)</label>
+                    <textarea id="inputDreams" rows="4" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none font-mono text-xs"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Tên ngôi trường tương lai</label>
+                        <input type="text" id="inputSchoolName" class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">Link Video YouTube hoặc Bài viết Facebook trường</label>
+                        <input type="text" id="inputVideoUrl" placeholder="Dán link YouTube hoặc Facebook..." class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-1.5 font-medium">Link Facebook cá nhân của bạn</label>
+                    <input type="url" id="inputFacebook" placeholder="https://www.facebook.com/..." required class="w-full px-4 py-2.5 rounded-xl bg-cosmic-950/80 border border-white/15 text-white focus:border-neon-purple focus:outline-none">
+                </div>
+
+                <!-- Modal Footer Actions -->
+                <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                    <button type="button" onclick="resetDefaultData()" class="px-4 py-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-medium transition">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Khôi phục thông tin gốc của Đào Minh Hằng
+                    </button>
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeEditModal()" class="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-medium transition">
+                            Hủy
+                        </button>
+                        <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-neon-purple to-neon-pink text-white font-semibold shadow-lg hover:opacity-95 transition">
+                            <i class="fa-solid fa-floppy-disk mr-1.5"></i> Lưu Thay Đổi
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification (Replaces alert()) -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-card bg-cosmic-900/95 border border-neon-gold/50 px-5 py-3.5 rounded-2xl flex items-center gap-3 shadow-2xl">
+            <span class="w-8 h-8 rounded-full bg-neon-gold/20 text-neon-gold flex items-center justify-center">
+                <i class="fa-solid fa-check"></i>
+            </span>
+            <p id="toastMessage" class="text-sm font-medium text-white">Đã lưu thông tin thành công!</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // =========================================================================
+        // 1. DEFAULT DATA (ĐÀO MINH HẰNG - VOI) & LOCALSTORAGE STATE MANAGEMENT
+        // =========================================================================
+        const STORAGE_KEY = 'dao_minh_hang_voi_profile_v2';
+
+        const defaultProfileData = {
+            name: 'Đào Minh Hằng',
+            shortName: 'Voi',
+            birthday: '24/07/2009',
+            age: '17 Tuổi',
+            zodiac: 'Sư Tử',
+            location: 'Quảng Ninh, Việt Nam',
+            avatar: 'https://drive.google.com/file/d/163rOjmlw1JCObfZNk8XfsijmJyw3hu3f/view?usp=drivesdk',
+            taglines: [
+                'Người kiến tạo giấc mơ công nghệ ✨',
+                'Đam mê nghệ thuật & thiết kế sáng tạo 🎨',
+                'Luôn tiến về phía ánh sáng tri thức 🚀'
+            ],
+            bio: 'Một tâm hồn yêu cái đẹp, đam mê công nghệ sáng tạo và luôn khao khát chạm tới những chân trời tri thức mới. Với mình, mỗi ngày trôi qua là một nét vẽ rực rỡ trên bức tranh thanh xuân.',
+            hobbies: [
+                {
+                    title: 'Nhiếp ảnh & Chỉnh màu nghệ thuật',
+                    desc: 'Lưu giữ những khoảnh khắc hoàng hôn, phố phường và ánh đèn đêm qua lăng kính riêng.',
+                    icon: 'fa-camera-retro',
+                    color: 'from-neon-purple to-indigo-500',
+                    span: 'md:col-span-2'
+                },
+                {
+                    title: 'Thưởng thức âm nhạc Indie & Lo-fi',
+                    desc: 'Đắm chìm trong giai điệu nhẹ nhàng mỗi tối khi đọc sách hoặc lên ý tưởng mới.',
+                    icon: 'fa-headphones-simple',
+                    color: 'from-neon-pink to-rose-500',
+                    span: 'md:col-span-1'
+                },
+                {
+                    title: 'Khám phá Công nghệ & Thiết kế Web',
+                    desc: 'Tự tay mày mò tạo ra những giao diện độc đáo, mượt mà và mang đậm dấu ấn cá nhân.',
+                    icon: 'fa-laptop-code',
+                    color: 'from-neon-cyan to-blue-500',
+                    span: 'md:col-span-1'
+                },
+                {
+                    title: 'Đọc sách & Viết nhật ký tương lai',
+                    desc: 'Ghi chép lại những bài học hay, những cuốn sách truyền cảm hứng sống tích cực mỗi cuối tuần.',
+                    icon: 'fa-book-open-reader',
+                    color: 'from-neon-gold to-amber-500',
+                    span: 'md:col-span-2'
+                }
+            ],
+            dreams: [
+                {
+                    time: 'Mục tiêu ngắn hạn • 2026',
+                    title: 'Chinh phục kỳ thi & Cánh cửa Đại học mơ ước',
+                    desc: 'Hoàn thành xuất sắc chặng đường cấp 3 với điểm số rực rỡ và đỗ vào ngôi trường đại học hàng đầu.'
+                },
+                {
+                    time: 'Hành trình giảng đường • 2027 - 2030',
+                    title: 'Trở thành sinh viên năng động & Săn học bổng',
+                    desc: 'Tham gia các câu lạc bộ sáng tạo, trau dồi ngoại ngữ thành thạo và giành học bổng trao đổi quốc tế.'
+                },
+                {
+                    time: 'Tầm nhìn sự nghiệp • Tương lai xa',
+                    title: 'Nhà sáng tạo sản phẩm số & Truyền cảm hứng',
+                    desc: 'Xây dựng những dự án công nghệ mang lại giá trị thẩm mỹ và hữu ích cho cộng đồng trẻ Việt Nam.'
+                }
+            ],
+            schoolName: 'Đại học Công Nghệ (UET - VNU)',
+            videoUrl: 'https://www.facebook.com/UET.VNUH/posts/v%E1%BB%ABa-%C4%91am-m%C3%AA-c%C3%B4ng-ngh%E1%BB%87-v%E1%BB%ABa-c%C3%B3-kh%E1%BA%A3-n%C4%83ng-thi%E1%BA%BFt-k%E1%BA%BF-s%C3%A1ng-t%E1%BA%A1o-th%C3%AC-t%C3%B4i-h%E1%BB%8Dc-g%C3%ACn%E1%BA%BFu-c%C3%A1c-b%E1%BA%A1n/1084725366788275/',
+            facebook: 'https://www.facebook.com/share/'
+        };
+
+        let currentData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(defaultProfileData);
+
+        // =========================================================================
+        // 2. SMART MEDIA PARSERS (GOOGLE DRIVE AVATAR & YOUTUBE / FACEBOOK SCHOOL)
+        // =========================================================================
+        function parseAvatarUrl(url) {
+            if (!url) return 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';
+            // Extract Google Drive file ID from formats like /file/d/ID/view or ?id=ID
+            const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (driveMatch && driveMatch[1]) {
+                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
+            }
+            return url;
+        }
+
+        function cleanRedirectUrl(url) {
+            if (!url) return '';
+            try {
+                if (url.includes('google.com/url')) {
+                    const u = new URL(url);
+                    const realUrl = u.searchParams.get('q') || u.searchParams.get('url');
+                    if (realUrl) return realUrl;
+                }
+            } catch (e) {}
+            return url;
+        }
+
+        function renderSchoolMedia(rawUrl, schoolName) {
+            const container = document.getElementById('schoolMediaContainer');
+            const cleanUrl = cleanRedirectUrl(rawUrl);
+
+            // Check if YouTube URL
+            let youtubeId = '';
+            try {
+                if (cleanUrl.includes('youtube.com/embed/')) {
+                    youtubeId = cleanUrl.split('youtube.com/embed/')[1].split(/[?&#]/)[0];
+                } else if (cleanUrl.includes('youtu.be/')) {
+                    youtubeId = cleanUrl.split('youtu.be/')[1].split(/[?&#]/)[0];
+                } else if (cleanUrl.includes('youtube.com/watch')) {
+                    const urlObj = new URL(cleanUrl);
+                    youtubeId = urlObj.searchParams.get('v');
+                }
+            } catch (e) {}
+
+            if (youtubeId) {
+                container.innerHTML = `
+                    <div class="relative w-full pt-[56.25%]">
+                        <iframe class="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/${youtubeId}"
+                                title="Video giới thiệu ${escapeHTML(schoolName)}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                `;
+                return;
+            }
+
+            // Rich Showcase Card for Facebook / External Campus Link (Prevents iframe block)
+            const targetHref = cleanUrl || 'https://www.facebook.com/UET.VNUH';
+            container.innerHTML = `
+                <div class="relative min-h-[320px] sm:min-h-[380px] flex flex-col justify-between p-6 sm:p-10 bg-gradient-to-br from-[#130d2e] via-[#1c1142] to-[#0a0718] overflow-hidden">
+                    <!-- Background Tech Grid & Glow -->
+                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#a855f7 1px, transparent 1px); background-size: 24px 24px;"></div>
+                    <div class="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-neon-cyan/20 blur-3xl pointer-events-none"></div>
+                    <div class="absolute -left-16 -bottom-16 w-72 h-72 rounded-full bg-neon-purple/25 blur-3xl pointer-events-none"></div>
+
+                    <!-- Top Tags -->
+                    <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1877F2]/20 border border-[#1877F2]/40 text-sky-300 text-xs font-semibold">
+                            <i class="fa-brands fa-facebook text-sm"></i> Video & Bài Viết Giới Thiệu Chính Thức
+                        </span>
+                        <span class="text-xs font-mono text-neon-gold bg-neon-gold/10 border border-neon-gold/30 px-3 py-1 rounded-full">
+                            UET • VNU
+                        </span>
+                    </div>
+
+                    <!-- Center Showcase Content -->
+                    <div class="relative z-10 my-6 space-y-4 max-w-2xl">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-neon-cyan via-neon-purple to-neon-pink p-0.5 shadow-[0_0_30px_rgba(34,211,238,0.35)]">
+                            <div class="w-full h-full bg-cosmic-950 rounded-[14px] flex items-center justify-center text-2xl text-neon-cyan">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                        </div>
+
+                        <h3 class="font-serif text-2xl sm:text-4xl font-bold text-white leading-snug">
+                            ${escapeHTML(schoolName)}
+                        </h3>
+
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            "Vừa đam mê công nghệ, vừa có khả năng thiết kế sáng tạo thì tôi học gì?" — Khám phá môi trường học tập hiện đại, năng động và đầy cảm hứng dành cho thế hệ kiến tạo tương lai số.
+                        </p>
+                    </div>
+
+                    <!-- Bottom Action Button -->
+                    <div class="relative z-10 flex flex-wrap items-center gap-4">
+                        <a href="${escapeHTML(targetHref)}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           onclick="createRipple(event)"
+                           class="btn-ripple inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-neon-cyan via-blue-500 to-neon-purple text-white font-bold text-sm sm:text-base shadow-[0_0_25px_rgba(34,211,238,0.45)] hover:shadow-[0_0_35px_rgba(168,85,247,0.7)] transition-all hover:-translate-y-0.5">
+                            <i class="fa-solid fa-circle-play text-lg"></i>
+                            <span>Xem Video & Bài Viết Giới Thiệu Trường</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-85"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // =========================================================================
+        // 3. RENDER UI FUNCTIONS
+        // =========================================================================
+        function renderAll() {
+            // Basic Info
+            document.getElementById('navBrandName').textContent = currentData.shortName;
+            document.getElementById('footerName').textContent = `${currentData.name} (${currentData.shortName})`;
+            document.getElementById('displayName').textContent = currentData.name;
+            document.getElementById('displayNicknameBadge').textContent = currentData.shortName;
+            document.getElementById('displayBirthday').textContent = currentData.birthday;
+            document.getElementById('displayAge').textContent = currentData.age;
+            document.getElementById('displayZodiac').textContent = currentData.zodiac || 'Sư Tử';
+            document.getElementById('displayLocation').textContent = currentData.location;
+            document.getElementById('displayBio').textContent = currentData.bio;
+
+            // Avatar with Google Drive auto-converter & graceful fallback
+            const avatarEl = document.getElementById('displayAvatar');
+            avatarEl.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';
+            };
+            avatarEl.src = parseAvatarUrl(currentData.avatar);
+
+            // School & Media
+            document.getElementById('displaySchoolName').textContent = currentData.schoolName;
+            renderSchoolMedia(currentData.videoUrl, currentData.schoolName);
+
+            // Facebook
+            document.getElementById('displayFacebookLink').href = currentData.facebook;
+
+            // Render Bento Hobbies
+            const bentoContainer = document.getElementById('bentoContainer');
+            const icons = ['fa-camera-retro', 'fa-headphones-simple', 'fa-laptop-code', 'fa-book-open-reader', 'fa-palette', 'fa-plane-departure'];
+            const gradients = [
+                'from-neon-purple to-indigo-500',
+                'from-neon-pink to-rose-500',
+                'from-neon-cyan to-blue-500',
+                'from-neon-gold to-amber-500'
+            ];
+
+            bentoContainer.innerHTML = currentData.hobbies.map((item, idx) => {
+                const spanClass = item.span || (idx === 0 || idx === 3 ? 'md:col-span-2' : 'md:col-span-1');
+                const iconClass = item.icon || icons[idx % icons.length];
+                const gradClass = item.color || gradients[idx % gradients.length];
+                return `
+                    <div class="tilt-card glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between group cursor-default ${spanClass}">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${gradClass} p-0.5 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                <div class="w-full h-full bg-cosmic-950/90 rounded-[14px] flex items-center justify-center text-white text-2xl">
+                                    <i class="fa-solid ${iconClass}"></i>
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                                0${idx + 1}
+                            </span>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-neon-gold transition-colors">
+                                ${escapeHTML(item.title)}
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+                                ${escapeHTML(item.desc)}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Constellation Timeline
+            const timelineContainer = document.getElementById('timelineContainer');
+            timelineContainer.innerHTML = currentData.dreams.map((dream, idx) => {
+                const isEven = idx % 2 === 0;
+                return `
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center justify-between ${isEven ? 'md:flex-row-reverse' : ''}">
+                        <!-- Glowing Star Node -->
+                        <div class="absolute left-6 md:left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-neon-gold border-4 border-cosmic-950 shadow-[0_0_20px_#fbbf24] z-10 mt-6 md:mt-0"></div>
+
+                        <!-- Empty Spacer for Desktop Alternating Layout -->
+                        <div class="hidden md:block w-5/12"></div>
+
+                        <!-- Content Card -->
+                        <div class="w-full pl-14 md:pl-0 md:w-5/12">
+                            <div class="tilt-card glass-card rounded-2xl p-6 border-l-4 border-l-neon-purple hover:border-l-neon-gold">
+                                <span class="inline-block text-xs font-semibold tracking-wider uppercase text-neon-pink mb-2">
+                                    <i class="fa-solid fa-sparkles mr-1"></i> ${escapeHTML(dream.time)}
+                                </span>
+                                <h3 class="font-serif text-xl font-bold text-white mb-2">
+                                    ${escapeHTML(dream.title)}
+                                </h3>
+                                <p class="text-slate-300 text-sm leading-relaxed">
+                                    ${escapeHTML(dream.desc)}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Re-attach 3D Tilt Listeners
+            initTiltCards();
+        }
+
+        function escapeHTML(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // =========================================================================
+        // 3. TYPING EFFECT ENGINE
+        // =========================================================================
+        let taglineIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingTimer = null;
+
+        function runTypingEffect() {
+            const typingEl = document.getElementById('typingText');
+            const list = currentData.taglines && currentData.taglines.length > 0
+                ? currentData.taglines
+                : ['Tỏa sáng theo cách riêng ✨'];
+
+            const currentFullText = list[taglineIndex % list.length];
+
+            if (isDeleting) {
+                charIndex--;
+            } else {
+                charIndex++;
+            }
+
+            typingEl.textContent = currentFullText.substring(0, charIndex);
+
+            let speed = isDeleting ? 35 : 70;
+
+            if (!isDeleting && charIndex === currentFullText.length) {
+                speed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                taglineIndex++;
+                speed = 400;
+            }
+
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(runTypingEffect, speed);
+        }
+
+        // =========================================================================
+        // 4. 3D TILT CARD INTERACTION
+        // =========================================================================
+        function initTiltCards() {
+            const cards = document.querySelectorAll('.tilt-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -6;
+                    const rotateY = ((x - centerX) / centerX) * 6;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                });
+            });
+        }
+
+        // =========================================================================
+        // 5. EDIT MODAL & LOCALSTORAGE HANDLERS
+        // =========================================================================
+        function openEditModal() {
+            document.getElementById('inputName').value = currentData.name;
+            document.getElementById('inputShortName').value = currentData.shortName;
+            document.getElementById('inputBirthday').value = currentData.birthday;
+            document.getElementById('inputAge').value = currentData.age;
+            document.getElementById('inputZodiac').value = currentData.zodiac || '';
+            document.getElementById('inputLocation').value = currentData.location;
+            document.getElementById('inputAvatar').value = currentData.avatar;
+            document.getElementById('inputTaglines').value = currentData.taglines.join(', ');
+            document.getElementById('inputBio').value = currentData.bio;
+
+            document.getElementById('inputHobbies').value = currentData.hobbies
+                .map(h => `${h.title} | ${h.desc}`)
+                .join('\n');
+
+            document.getElementById('inputDreams').value = currentData.dreams
+                .map(d => `${d.time} | ${d.title} | ${d.desc}`)
+                .join('\n');
+
+            document.getElementById('inputSchoolName').value = currentData.schoolName;
+            document.getElementById('inputVideoUrl').value = currentData.videoUrl;
+            document.getElementById('inputFacebook').value = currentData.facebook;
+
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveProfileData(e) {
+            e.preventDefault();
+
+            const rawHobbies = document.getElementById('inputHobbies').value.trim().split('\n').filter(Boolean);
+            const parsedHobbies = rawHobbies.map((line, i) => {
+                const parts = line.split('|').map(s => s.trim());
+                return {
+                    title: parts[0] || `Sở thích ${i + 1}`,
+                    desc: parts[1] || 'Niềm vui mỗi ngày giúp cuộc sống thêm rực rỡ.',
+                    span: (i === 0 || i === 3) ? 'md:col-span-2' : 'md:col-span-1'
+                };
+            });
+
+            const rawDreams = document.getElementById('inputDreams').value.trim().split('\n').filter(Boolean);
+            const parsedDreams = rawDreams.map((line, i) => {
+                const parts = line.split('|').map(s => s.trim());
+                return {
+                    time: parts[0] || `Cột mốc ${i + 1}`,
+                    title: parts[1] || 'Mục tiêu tương lai',
+                    desc: parts[2] || 'Nỗ lực hết mình để biến ước mơ thành hiện thực.'
+                };
+            });
+
+            currentData = {
+                name: document.getElementById('inputName').value.trim(),
+                shortName: document.getElementById('inputShortName').value.trim(),
+                birthday: document.getElementById('inputBirthday').value.trim(),
+                age: document.getElementById('inputAge').value.trim(),
+                zodiac: document.getElementById('inputZodiac').value.trim(),
+                location: document.getElementById('inputLocation').value.trim(),
+                avatar: document.getElementById('inputAvatar').value.trim() || defaultProfileData.avatar,
+                taglines: document.getElementById('inputTaglines').value.split(',').map(s => s.trim()).filter(Boolean),
+                bio: document.getElementById('inputBio').value.trim(),
+                hobbies: parsedHobbies.length ? parsedHobbies : defaultProfileData.hobbies,
+                dreams: parsedDreams.length ? parsedDreams : defaultProfileData.dreams,
+                schoolName: document.getElementById('inputSchoolName').value.trim(),
+                videoUrl: document.getElementById('inputVideoUrl').value.trim(),
+                facebook: document.getElementById('inputFacebook').value.trim()
+            };
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+            renderAll();
+            closeEditModal();
+            showToast('✨ Đã cập nhật & lưu hồ sơ của bạn!');
+        }
+
+        function resetDefaultData() {
+            localStorage.removeItem(STORAGE_KEY);
+            currentData = structuredClone(defaultProfileData);
+            renderAll();
+            closeEditModal();
+            showToast('✨ Đã khôi phục thông tin gốc của Đào Minh Hằng!');
+        }
+
+        // =========================================================================
+        // 6. RIPPLE EFFECT, CLIPBOARD & TOAST NOTIFICATION
+        // =========================================================================
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+            const rect = button.getBoundingClientRect();
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - rect.left - radius}px`;
+            circle.style.top = `${event.clientY - rect.top - radius}px`;
+            circle.classList.add('ripple-circle');
+
+            const existing = button.getElementsByClassName('ripple-circle')[0];
+            if (existing) existing.remove();
+
+            button.appendChild(circle);
+        }
+
+        function copyProfileLink(event) {
+            createRipple(event);
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast('📋 Đã sao chép đường dẫn trang cá nhân!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3200);
+        }
+
+        // =========================================================================
+        // 7. SPARKLING CONSTELLATION PARTICLE BACKGROUND
+        // =========================================================================
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, particles;
+
+            const colors = ['#a855f7', '#fbbf24', '#f472b6', '#ffffff'];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            class Star {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 2 + 0.4;
+                    this.speedY = -(Math.random() * 0.35 + 0.1);
+                    this.speedX = (Math.random() - 0.5) * 0.2;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.alpha = Math.random() * 0.8 + 0.2;
+                    this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.alpha += this.twinkleSpeed;
+                    if (this.alpha > 1 || this.alpha < 0.15) this.twinkleSpeed *= -1;
+                    if (this.y < -10) {
+                        this.y = height + 10;
+                        this.x = Math.random() * width;
+                    }
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
+                    ctx.fillStyle = this.color;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            function setup() {
+                resize();
+                const count = Math.min(90, Math.floor((width * height) / 14000));
+                particles = Array.from({ length: count }, () => new Star());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', setup);
+            setup();
+            animate();
+        }
+
+        // Initialize Everything on Load
+        window.onload = function () {
+            initParticles();
+            renderAll();
+            runTypingEffect();
+        };
+    </script>
+</body>
+</html>
